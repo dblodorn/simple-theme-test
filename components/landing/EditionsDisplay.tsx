@@ -29,8 +29,6 @@ export function EditionsDisplay({curationContractAddress}: string) {
     [siteData]
   )
 
-  console.log("finalListings", finalListings)
-
   return (
     <section id="editions" className='flex flex-col border-t-[1px] border-black gap-12 py-6 pb-20'>
       {finalListings.map((address) =>
