@@ -1,16 +1,45 @@
+import React from 'react'
+import App from 'next/app'
 import 'styles/globals.css'
-import type { AppProps } from 'next/app'
+import type { AppContext, AppProps } from 'next/app'
 import { AppWrapper, Header } from './../components'
 
-function NetLabel({ Component, pageProps }: AppProps) {
+type ThemedProps = Pick<AppProps, "Component" | "pageProps"> & {
+  themeProps: {
+    bgColor: string,
+    textColor: string,
+    fontFamilyA: string,
+  };
+};
+
+function ThemeTest({ Component, pageProps, themeProps }: ThemedProps) {
+  console.log(themeProps)
+  const themeStyles = {
+    '--background-color': themeProps.bgColor,
+    '--text-color': themeProps.textColor,
+    '--font-a': themeProps.fontFamilyA,
+  } as React.CSSProperties
+  
   return (
     <AppWrapper>
-      <Header />
-      <main className="px-6">
-        <Component {...pageProps} />
-      </main>
+      <div id="theme-wrapper" style={themeStyles}>
+        <Header />
+        <main className="px-6">
+          <Component {...pageProps} />
+        </main>
+      </div>
     </AppWrapper>
   )
 }
 
-export default NetLabel
+ThemeTest.getInitialProps = async (appContext: AppContext) => {
+  const appProps = await App.getInitialProps(appContext)
+  const themeProps = {
+    bgColor: 'pink',
+    textColor: 'brown',
+    fontFamilyA: 'helvetica',
+  }
+  return { ...appProps, themeProps }
+}
+
+export default ThemeTest

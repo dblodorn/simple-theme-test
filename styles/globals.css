@@ -23,6 +23,8 @@ a {
 
 * {
   box-sizing: border-box;
+  color: var(--text-color);
+  font-family: var(--font-a);
 }
 
 header {
@@ -31,6 +33,10 @@ header {
 
 main {
   min-height: calc(100vh - var(--header-height));
+}
+
+#theme-wrapper {
+  background-color: var(--background-color);
 }
 
 .text-underline {
