@@ -4,6 +4,8 @@ import 'styles/globals.css'
 import type { AppContext, AppProps } from 'next/app'
 import { AppWrapper, Header } from './../components'
 import { getThemeUri } from 'lib/getThemeURI'
+import { Seo } from './../components'
+import { ThemeProvider } from 'context/ThemeContext'
 
 type ThemedProps = Pick<AppProps, "Component" | "pageProps"> & {
   themeProps: {
@@ -28,30 +30,36 @@ function ThemeTest({ Component, pageProps, themeProps }: ThemedProps) {
 
   return (
     <AppWrapper>
-      <div id="theme-wrapper" style={themeStyles}>
-        <Header />
-        <style jsx global>{`
-          @font-face {
-            font-family: 'display';
-            src: url(${themeProps.displayFont});
-          }
-          @font-face {
-            font-family: 'body';
-            src: url(${themeProps.bodyFont});
-          }
-        `}</style>
-        <div className='flex flex-row justify-center pt-[7%]'>
-          <h1 className="text-center text-7xl" style={{
-            backgroundColor: 'var(--accent-color)',
-            color: 'var(--background-color',
-            display: 'inline-block',
-            transform: 'rotate(-5deg)',
-          }}>{themeProps?.theme?.name}</h1>
-        </div>
-        <main className="px-6">
-          <Component {...pageProps} />
-        </main>
-      </div>
+      <ThemeProvider theme={themeProps}>
+        <div id="theme-wrapper" style={themeStyles}>  
+          <Seo
+            title={themeProps?.theme?.name}
+            description={themeProps?.theme?.description}
+          />
+          <Header/>
+          <style jsx global>{`
+            @font-face {
+              font-family: 'display';
+              src: url(${themeProps.displayFont});
+            }
+            @font-face {
+              font-family: 'body';
+              src: url(${themeProps.bodyFont});
+            }
+          `}</style>
+            <div className='flex flex-row justify-center pt-[7%]'>
+              <h1 className="text-center text-7xl" style={{
+                backgroundColor: 'var(--accent-color)',
+                color: 'var(--background-color',
+                display: 'inline-block',
+                transform: 'rotate(-5deg)',
+              }}>{themeProps?.theme?.project_content?.fancy_title}</h1>
+            </div>
+            <main className="px-6">
+              <Component {...pageProps} />
+            </main>
+          </div>
+      </ThemeProvider>
     </AppWrapper>
   )
 }

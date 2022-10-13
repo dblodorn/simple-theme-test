@@ -27,8 +27,8 @@ a {
   font-family: var(--body-font);
 }
 
-h1 {
-  font-family: var(--body-font);
+h1, h2 {
+  font-family: var(--display-font)!important;
 }
 
 main {
