@@ -24,11 +24,11 @@ a {
 * {
   box-sizing: border-box;
   color: var(--text-color);
-  font-family: var(--font-a);
+  font-family: var(--body-font);
 }
 
-header {
-  height: var(--header-height);
+h1 {
+  font-family: var(--body-font);
 }
 
 main {
@@ -37,6 +37,10 @@ main {
 
 #theme-wrapper {
   background-color: var(--background-color);
+}
+
+header {
+  height: var(--header-height);
 }
 
 .text-underline {

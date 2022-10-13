@@ -9,28 +9,40 @@ type ThemedProps = Pick<AppProps, "Component" | "pageProps"> & {
   themeProps: {
     bgColor: string,
     textColor: string,
-    fontFamilyA: string,
-    otherColor: string,
-    theme: any
+    accentColor: string,
+    displayFont: string,
+    bodyFont: string,
+    theme: any,
   };
 };
 
 function ThemeTest({ Component, pageProps, themeProps }: ThemedProps) {
-
+  console.log(themeProps)
   const themeStyles = {
     '--background-color': themeProps.bgColor,
     '--text-color': themeProps.textColor,
-    '--other-color': themeProps.otherColor,
-    '--font-a': themeProps.fontFamilyA,
+    '--accent-color': themeProps.accentColor,
+    '--display-font': 'display',
+    '--body-font': 'body',
   } as React.CSSProperties
 
   return (
     <AppWrapper>
       <div id="theme-wrapper" style={themeStyles}>
         <Header />
+        <style jsx global>{`
+          @font-face {
+            font-family: 'display';
+            src: url(${themeProps.displayFont});
+          }
+          @font-face {
+            font-family: 'body';
+            src: url(${themeProps.bodyFont});
+          }
+        `}</style>
         <div className='flex flex-row justify-center pt-[7%]'>
           <h1 className="text-center text-7xl" style={{
-            backgroundColor: 'var(--other-color)',
+            backgroundColor: 'var(--accent-color)',
             color: 'var(--background-color',
             display: 'inline-block',
             transform: 'rotate(-5deg)',
@@ -46,13 +58,14 @@ function ThemeTest({ Component, pageProps, themeProps }: ThemedProps) {
 
 ThemeTest.getInitialProps = async (appContext: AppContext) => {
   const appProps = await App.getInitialProps(appContext)
-  const theme = await getThemeUri()
+  const theme = await getThemeUri('0x5BBC122E437A0F418b64454De76A431658C5162B')
   
   const themeProps = {
-    bgColor: theme?.theme?.colors?.primary,
-    textColor: theme?.theme?.colors?.secondary,
-    otherColor: theme?.theme?.colors?.tertiary,
-    fontFamilyA: 'helvetica',
+    bgColor: theme?.project_content?.theme?.colors?.background,
+    textColor: theme?.project_content?.theme?.colors?.text,
+    accentColor: theme?.project_content?.theme?.colors?.accent,
+    displayFont: theme?.project_content?.theme?.fonts?.display,
+    bodyFont: theme?.project_content?.theme?.fonts?.body,
     theme: theme
   }
 

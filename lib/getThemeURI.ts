@@ -1,10 +1,10 @@
 import { ethers } from "ethers"
 import myContractABI from './contract.json'
 
-export async function getThemeUri() {
+export async function getThemeUri(contractAddress: string) {
   try {
     const myContract = new ethers.Contract(
-      '0xfd05b04a0040325C0D975B89F6F3AeB188FB1fBD',
+      contractAddress,
       myContractABI.abi,
       new ethers.providers.StaticJsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL)
     )
